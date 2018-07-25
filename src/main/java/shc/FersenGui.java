@@ -1,11 +1,10 @@
 /*
  * selected-historical-ciphers
- * 
+ *
  * Copyright (c) 2018, Milten Plescott. All rights reserved.
- * 
+ *
  * SPDX-License-Identifier:    BSD-3-Clause
  */
-
 package shc;
 
 import shc.fersen.attack.EveryOtherCharacter;
@@ -17,16 +16,16 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -273,21 +272,36 @@ public class FersenGui {
 
 		JButton buttonArrow;
 		try {
-			Image icon = ImageIO.read(new File("icons" + File.separator + "icon.bmp"));
-			buttonArrow = new JButton(new ImageIcon(icon));
-			buttonArrow.setFocusable(false);
+			InputStream is = this.getClass().getClassLoader().getResourceAsStream("icons/icon.bmp");
+			buttonArrow = new JButton(new ImageIcon(ImageIO.read(is)));
 		}
 		catch (IOException e) {
-			// radsej po slovensky ???
 			JOptionPane.showMessageDialog(null,
-				"<html><span style='font-size:18pt'>" + File.separator + "icons" + File.separator + "icon.bmp is missing",
+				"<html><span style='font-size:18pt'>" + "Couldn't load icon.bmp from JAR",
 				"Icon Error",
-				JOptionPane.ERROR_MESSAGE);
+				JOptionPane.ERROR_MESSAGE
+			);
 			buttonArrow = new JButton("\u2190");
 			buttonArrow.setFont(Fonts.MONOB);
-			buttonArrow.setFocusable(false);
 		}
+		buttonArrow.setFocusable(false);
 
+		/*
+		try {
+			ImageIcon icon = new ImageIcon(this.getClass().getClassLoader().getResource("icons/icon.bmp"));
+			//Image img = ImageIO.read(new File("icons" + File.separator + "icon.bmp"));
+			buttonArrow = new JButton(icon);
+		}
+		catch (NullPointerException e) {
+			JOptionPane.showMessageDialog(null,
+				"<html><span style='font-size:18pt'>" + "Couldn't load icon.bmp from JAR",
+				"Icon Error",
+				JOptionPane.ERROR_MESSAGE
+			);
+			buttonArrow = new JButton("\u2190");
+			buttonArrow.setFont(Fonts.MONOB);
+		}
+		 */
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 0));  // hgap, vgap
 		panel.add(buttonArrow);
 		panel.add(labelPswd).setFont(Fonts.SANS);
@@ -830,11 +844,14 @@ public class FersenGui {
 	 */
 	private static List<String> loadOriginalTextParagraphs(Case letterCase) {
 		List<String> paragraphs = null;
-		String path = "fersenCipherText.txt"; // the last time I checked the file looked like: each paragraph on one line, with no spaces
+		String file = "fersenCipherText.txt"; // the last time I checked the file looked like: each paragraph on one line, with no spaces
 		String line;
 
-		try (FileReader fr = new FileReader(path);
-			BufferedReader reader = new BufferedReader(fr);) {
+		try (
+			InputStream is = FersenGui.class.getClassLoader().getResourceAsStream(file);
+			InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+			//FileReader fr = new FileReader(path);
+			BufferedReader reader = new BufferedReader(isr)) {
 			paragraphs = new ArrayList<>(10);
 			while ((line = reader.readLine()) != null) {
 				switch (letterCase) {
@@ -854,7 +871,7 @@ public class FersenGui {
 		}
 		catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
-				"<html><span style='font-size:18pt'>" + "Error while opening file: <i>" + path + "</i>" + "<br>Program will exit now...",
+				"<html><span style='font-size:18pt'>" + "Error while opening file: <i>" + file + "</i>" + "<br>Program will exit now...",
 				"Icon Error",
 				JOptionPane.ERROR_MESSAGE);
 			System.exit(0);

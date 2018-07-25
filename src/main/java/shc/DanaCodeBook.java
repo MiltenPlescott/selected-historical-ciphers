@@ -1,11 +1,10 @@
 /*
  * selected-historical-ciphers
- * 
+ *
  * Copyright (c) 2018, Milten Plescott. All rights reserved.
- * 
+ *
  * SPDX-License-Identifier:    BSD-3-Clause
  */
-
 package shc;
 
 import java.awt.Dimension;
@@ -60,13 +59,13 @@ public class DanaCodeBook implements ActionListener {
 		{
 			add("Adams");
 			add("Administration");
-			add("Ally or Allies");
+			add("AllyOrAllies");
 			add("America");
 			add("American");
 			add("Army");
 			add("Austria");
-			add("Bacounin M");
-			add("Besborodki M");
+			add("BacouninM");
+			add("BesborodkiM");
 			add("Berun");
 			add("Britain");
 			add("British");
@@ -115,15 +114,15 @@ public class DanaCodeBook implements ActionListener {
 			add("Ministry");
 			add("Money");
 			add("Navy");
-			add("Count Osterman");
-			add("Count Panin");
+			add("CountOsterman");
+			add("CountPanin");
 			add("People");
 			add("Petersbourg");
 			add("Philadelphia");
 			add("Poland");
-			add("The Port");
+			add("ThePort");
 			add("Portugal");
-			add("Prince Potemkin");
+			add("PrincePotemkin");
 			add("Rufsia");
 			add("Rufsian");
 			add("Ships");
@@ -146,12 +145,12 @@ public class DanaCodeBook implements ActionListener {
 			add("Troops");
 			add("Turkish");
 			add("Turkey");
-			add("United Provinces");
-			add("United States");
-			add("Count Vergennes");
+			add("UnitedProvinces");
+			add("UnitedStates");
+			add("CountVergennes");
 			add("Versailles");
 			add("Vienna");
-			add("Count Warontryois");
+			add("CountWarontryois");
 		}
 	};
 

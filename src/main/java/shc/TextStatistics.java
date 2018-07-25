@@ -1,11 +1,10 @@
 /*
  * selected-historical-ciphers
- * 
+ *
  * Copyright (c) 2018, Milten Plescott. All rights reserved.
- * 
+ *
  * SPDX-License-Identifier:    BSD-3-Clause
  */
-
 package shc;
 
 import java.io.BufferedReader;
@@ -15,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -217,8 +217,10 @@ public class TextStatistics {
 	public static Map<Character, Double> getCorpusFromSer(String fileName) {
 		Map<Character, Double> map = null;
 
-		try (FileInputStream fis = new FileInputStream(fileName);
-			ObjectInputStream ois = new ObjectInputStream(fis);) {
+		try (
+			InputStream is = TextStatistics.class.getClassLoader().getResourceAsStream(fileName);
+			//FileInputStream fis = new FileInputStream(fileName);
+			ObjectInputStream ois = new ObjectInputStream(is)) {
 			map = (HashMap<Character, Double>) ois.readObject();
 		}
 		catch (IOException | ClassNotFoundException ioe) {

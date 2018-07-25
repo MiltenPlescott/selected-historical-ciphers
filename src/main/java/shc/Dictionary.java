@@ -1,17 +1,21 @@
 /*
  * selected-historical-ciphers
- * 
+ *
  * Copyright (c) 2018, Milten Plescott. All rights reserved.
- * 
+ *
  * SPDX-License-Identifier:    BSD-3-Clause
  */
-
 package shc;
 
 import shc.fersen.attack.FersenAttack;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,25 +57,26 @@ public class Dictionary {
 	/**
 	 * Loads the dicionary.
 	 *
-	 * @param path path of the dictionary file
+	 * @param dicName name of the dictionary file
 	 * @param ignoreEntriesOfLengthOne indicates whether to exclude words of length one from the dictionary or not
 	 */
-	public Dictionary(String path, boolean ignoreEntriesOfLengthOne) {
+	public Dictionary(String dicName, boolean ignoreEntriesOfLengthOne) {
 
-		loadDictionary(path, ignoreEntriesOfLengthOne);
+		loadDictionary(dicName, ignoreEntriesOfLengthOne);
 	}
 
 	/**
 	 * Loads the dictionary, sets the shortest and longest word length ({@link #shortestWordLength}, {@link #longestWordLength})
 	 * and calls {@link #addWord(java.lang.String) } method on each word from dictionary
 	 *
-	 * @param path path of the dictionary file
+	 * @param dicName name of the dictionary file
 	 * @param ignoreEntriesOfLengthOne indicates whether to exclude words of length one from the dictionary or not
 	 */
-	private void loadDictionary(String path, boolean ignoreEntriesOfLengthOne) {
+	private void loadDictionary(String dicName, boolean ignoreEntriesOfLengthOne) {
 		String line;
-		try (FileReader fr = new FileReader(path);
-			BufferedReader reader = new BufferedReader(fr);) {
+		try (InputStream is = this.getClass().getClassLoader().getResourceAsStream(dicName);
+			InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+			BufferedReader reader = new BufferedReader(isr)) {
 			while ((line = reader.readLine()) != null) {
 				//line = line.trim().toLowerCase();
 				line = line.trim().toUpperCase();
@@ -87,7 +92,6 @@ public class Dictionary {
 			}
 		}
 		catch (IOException e) {
-
 		}
 	}
 

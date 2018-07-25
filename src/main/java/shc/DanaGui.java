@@ -1,11 +1,10 @@
 /*
  * selected-historical-ciphers
- * 
+ *
  * Copyright (c) 2018, Milten Plescott. All rights reserved.
- * 
+ *
  * SPDX-License-Identifier:    BSD-3-Clause
  */
-
 package shc;
 
 import java.awt.Dimension;
@@ -13,14 +12,13 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -36,7 +34,6 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -225,21 +222,19 @@ public class DanaGui {
 		buttonCodebook.setFocusable(false);
 
 		JButton buttonArrow;
-
 		try {
-			Image icon = ImageIO.read(new File("icons" + File.separator + "icon.bmp"));
-			buttonArrow = new JButton(new ImageIcon(icon));
-			buttonArrow.setFocusable(false);
+			InputStream is = this.getClass().getClassLoader().getResourceAsStream("icons/icon.bmp");
+			buttonArrow = new JButton(new ImageIcon(ImageIO.read(is)));
 		}
 		catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
-				"<html><span style='font-size:18pt'>" + File.separator + "icons" + File.separator + "icon.bmp is missing",
+				"<html><span style='font-size:18pt'>" + "Couldn't load icon.bmp from JAR",
 				"Icon Error",
 				JOptionPane.ERROR_MESSAGE);
 			buttonArrow = new JButton("\u2190");
 			buttonArrow.setFont(Fonts.MONOB);
-			buttonArrow.setFocusable(false);
 		}
+		buttonArrow.setFocusable(false);
 
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 0));  // hgap, vgap
 		panel.add(buttonArrow);
