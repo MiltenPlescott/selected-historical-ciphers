@@ -1,11 +1,10 @@
 /*
  * selected-historical-ciphers
- * 
+ *
  * Copyright (c) 2018, Milten Plescott. All rights reserved.
- * 
+ *
  * SPDX-License-Identifier:    BSD-3-Clause
  */
-
 package shc.fersen.attack;
 
 import shc.Dictionary;
@@ -14,7 +13,6 @@ import shc.FersenPasswordLengthAnalyzer;
 import shc.TextStatistics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -101,9 +99,9 @@ public class FersenAttack implements ActionListener {
 	public static final int MAX_BRUTE_LENGTH = 3;
 
 	/**
-	 * Path of the dictionary.
+	 * Name of the dictionary file.
 	 */
-	private final String path = "dictionary.dic";
+	private final String dicName = "dictionary.dic";
 
 	/**
 	 * Minimal length of words added to tree from dictionary.
@@ -125,7 +123,7 @@ public class FersenAttack implements ActionListener {
 		PSWD_LENGTH = new FersenPasswordLengthAnalyzer(gui).getPswdLengthOfBestScore();
 		Helper.gui = gui;
 
-		dic = new Dictionary(path, true);
+		dic = new Dictionary(dicName, true);
 		mapCorpus = TextStatistics.getCorpusFromSer(corpusFileName);
 		mapRelFreqCT = Helper.getMapRelFreqCT(FersenGui.loadOriginalTextParagraphs(FersenGui.Case.UPPER, FersenGui.TextType.CT), PSWD_LENGTH);
 
@@ -192,12 +190,8 @@ public class FersenAttack implements ActionListener {
 			//System.out.println("done for i: " + i);
 			//System.out.println("branches: " + branches.size());
 			evalBranches(branches);
-
-			long timeE = System.currentTimeMillis();
-			//System.out.println("********* " + ((i / 6) + 1) + ". cyklus za: " + ((timeE - timeS) / 1000) + "s");
 		}
 
-		//System.out.println("Koniec celeho utoku za : " + (System.currentTimeMillis() - ts) / 1000 + "s");
 		printResults((System.currentTimeMillis() - ts) / 1000, ((i / 6) + 1));
 	}
 
@@ -422,9 +416,9 @@ public class FersenAttack implements ActionListener {
 			}
 		}
 
-		for (Map.Entry<Branch, List<Integer>> entry : mapScoreToBran.entrySet()) { // najnovsie pridane
-			if (entry.getValue().get(0).equals(highestScore.get(0)) && entry.getValue().get(1).equals(highestScore.get(1))) { // najnovsie pridane
-				//System.out.println("Solved so far pre najlepsi branch: " + entry.getKey().text.getSolvedSoFar()); // najnovsie pridane
+		for (Map.Entry<Branch, List<Integer>> entry : mapScoreToBran.entrySet()) {
+			if (entry.getValue().get(0).equals(highestScore.get(0)) && entry.getValue().get(1).equals(highestScore.get(1))) {
+				//System.out.println("Solved so far for best branch: " + entry.getKey().text.getSolvedSoFar());
 			}
 		}
 	}
