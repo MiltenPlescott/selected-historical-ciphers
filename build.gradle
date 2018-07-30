@@ -16,6 +16,8 @@ plugins {
 	id 'jacoco'
 	
 	id 'findbugs'
+	
+	id 'pmd'
 }
 
 tasks.withType (JavaCompile) {
@@ -54,10 +56,30 @@ jacocoTestReport {
     }
 }
 
+findbugs {
+	ignoreFailures = true
+}
+
 tasks.withType(FindBugs) {
 	reports {
 		xml.enabled false
 		html.enabled true
 		//html.stylesheet resources.text.fromFile('config/xsl/findbugs-custom.xsl')
+	}
+}
+
+pmd {
+	ignoreFailures = true
+	ruleSets = [
+			'java-basic',
+			'java-imports',
+			'java-naming',
+	]
+}
+
+tasks.withType(Pmd){
+	reports{
+		xml.enabled false
+		html.enabled true
 	}
 }
